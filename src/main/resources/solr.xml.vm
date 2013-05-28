@@ -1,0 +1,34 @@
+#foreach($row in $rows)
+  <doc>
+      <field name="sku_id">$!{row.get("sku_id")}</field>
+      <field name="goods_id">$!{row.get("goods_id")}</field>
+    <field name="cat_name">$!{row.get("cat_name")}</field>
+    <field name="cid">$!{row.get("cid")}</field>
+      #set($fid=0)
+      #if($!{row.get("fid")})
+          #set($fid = $!{row.get("fid")})
+      #end
+      <field name="fid">$fid</field>
+    <field name="title">$!stringUtil.replace($!stringUtil.replace($!{row.get("goods_title")},"/",""),"&"," ") $</field>
+    <field name="list_name_path_kv">$!{row.get("list_name_path_kv")}</field>
+    <field name="cat_path">$!{row.get("cat_path")}</field>
+    <field name="list_name_path">$!{row.get("list_name_path")}</field>
+    <field name="props">$!stringUtil.replace($!stringUtil.replace($!stringUtil.replace($!{row.get("props")},"/",""),"&"," "),":","_")</field>
+    <field name="props_kv">$!stringUtil.replace($!stringUtil.replace($!{row.get("props_kv")},"/",""),"&"," ")</field>
+    <field name="base_props">$!stringUtil.replace($!stringUtil.replace($!stringUtil.replace($!{row.get("base_props")},"/",""),"&"," "),":","_")</field>
+    <field name="base_props_kv">$!stringUtil.replace($!stringUtil.replace($!{row.get("base_props_kv")},"/",""),"&"," ")</field>
+    <field name="price">$!{row.get("price")}</field>
+    <field name="event_price">$!{row.get("event_price")}</field>
+    <field name="event_tag">$!{row.get("event_tag")}</field>
+    <field name="wholesale_price">$!{row.get("price")}</field>
+    <field name="list_name">$!{row.get("list_name")}</field>
+    <field name="rate_count">$!{row.get("rate_count")}</field>
+    <field name="image_md5">$!{row.get("image_md5")}</field>
+    <field name="stock">$!{row.get("stock")}</field>
+    <field name="sales">$!{row.get("sales")}</field>
+    <field name="status">$!{row.get("status")}</field>
+    <field name="is_parallel">$!{row.get("is_parallel")}</field>
+    <field name="is_secondhand">$!{row.get("is_secondhand")}</field>
+    <field name="modified">$dateTool.format("yyyy-MM-dd'T'HH:mm:ss'Z'", $!{row.get("gmt_modified")})</field>
+  </doc>
+#end

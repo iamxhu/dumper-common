@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configure>
+    <dataSource driver="com.mysql.jdbc.Driver"
+                url="jdbc:mysql://192.168.100.32:3306/test"
+                user="test"
+                password="test"/>
+    <entity name="goods"
+            driverKey="goods_id"
+            query="select goods_id,product_id,cid,stock,sales,retail_price,goods_title,props,status,props_str,image_md5,gmt_modified
+                                from goods where is_new = 0 and deleted = 0 and goods_id > ? order by goods_id limit 0 , ?"
+            deltaQuery="select goods_id,product_id,cid,stock,retail_price,goods_title,props,status,props_str,image_md5,gmt_modified
+                                from goods where is_new = 0 and deleted = 0 and gmt_modified > ? and goods_id > ? order by goods_id limit 0 , ?"
+            >
+        <entity name="rate"
+                query="select count(*) as rate_count from tc_rate where goods_id = ?"
+                key="goods_id">
+        </entity>
+        <transformer name="GoodsTransformer" class="com.github.dumper.common.transformer.GoodsTransformer">
+            <property key="imageSuffix" value="http://res.okhqb.com/thumbs/product/"/>
+        </transformer>
+    </entity>
+
+    <cacheSupport>
+        <cache name="catCache" class="com.github.dumper.common.transformer.CatCacheSupport"></cache>
+        <cache name="propCache" class="com.github.dumper.common.transformer.PropCacheSupport"></cache>
+    </cacheSupport>
+
+    <fileWriters>
+        <fileWriter filename="goodsData.xml" class="com.github.dumper.common.writer.DefaultFileWriter"
+                    filePath="/opt/test"
+                    vmPath="/Users/star/Workspace/github/dumper-common/src/main/resources"
+                    vmFilename="solr.xml.vm">
+            <header><![CDATA[<add>]]></header>
+            <footer><![CDATA[</add>]]></footer>
+        </fileWriter>
+        <velocityTool>
+            <property key="dateTool" class="org.apache.velocity.tools.generic.DateTool"/>
+            <property key="stringUtil" class="org.apache.commons.lang.StringUtils"/>
+        </velocityTool>
+    </fileWriters>
+
+
+
+</configure>
